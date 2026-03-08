@@ -1,1 +1,0 @@
-# Wisdom-project-Czech-
