@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mistr Mysli ✦</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void:       #08071A;
+  --deep:       #0F0E2A;
+  --surface:    #161438;
+  --card:       #1C1A46;
+  --card2:      #211F52;
+  --border:     rgba(255,255,255,0.08);
+  --gold:       #F0C060;
+  --gold-dim:   #A07828;
+  --teal:       #40E0C8;
+  --rose:       #FF7090;
+  --violet:     #9B6DFF;
+  --sky:        #60C8FF;
+  --amber:      #FFB040;
+  --mint:       #50E8A0;
+  --text:       rgba(255,255,255,0.92);
+  --text-dim:   rgba(255,255,255,0.52);
+  --text-faint: rgba(255,255,255,0.28);
+  --bounce:     cubic-bezier(0.34,1.56,0.64,1);
+  --ease:       cubic-bezier(0.4,0,0.2,1);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{
+background-color:#08071A!important;
+background:#08071A!important;
+}
+body{
+font-family:‘Nunito’,sans-serif;
+background-color:#08071A!important;
+background:#08071A!important;
+min-height:100vh;
+overflow-x:hidden;
+color:rgba(255,255,255,0.92);
+-webkit-font-smoothing:antialiased;
+}
+/* Force dark fill behind everything on iOS */
+body::before{
+content:’’;
+position:fixed;
+inset:0;
+z-index:-1;
+background:#08071A;
+}
+
+/* ── COSMIC CANVAS ── */
+.cosmos{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.nebula{
+position:absolute;border-radius:50%;
+animation:nebDrift 12s ease-in-out infinite alternate;
+}
+.neb1{width:600px;height:600px;background:radial-gradient(circle,rgba(155,109,255,0.18) 0%,transparent 70%);top:-200px;left:-100px;animation-delay:0s}
+.neb2{width:500px;height:500px;background:radial-gradient(circle,rgba(64,224,200,0.14) 0%,transparent 70%);bottom:-100px;right:-100px;animation-delay:3s}
+.neb3{width:400px;height:400px;background:radial-gradient(circle,rgba(240,192,96,0.10) 0%,transparent 70%);top:40%;left:20%;animation-delay:6s}
+@keyframes nebDrift{from{transform:translate(0,0) scale(1)}to{transform:translate(20px,30px) scale(1.08)}}
+
+.starfield{position:fixed;inset:0;z-index:0;pointer-events:none}
+.star-dot{
+position:absolute;border-radius:50%;
+animation:starPulse 4s ease-in-out infinite alternate;
+}
+@keyframes starPulse{from{opacity:.2}to{opacity:.9}}
+
+/* ── SCREENS ── */
+.screen{position:relative;z-index:2;min-height:100vh;display:none;flex-direction:column;padding-bottom:88px}
+.screen.active{display:flex}
+
+/* ── NAV ── */
+.bottom-nav{
+position:fixed;bottom:0;left:0;right:0;z-index:100;
+background-color:#08071A;
+background:rgba(8,7,26,0.98);
+-webkit-backdrop-filter:blur(20px);
+backdrop-filter:blur(20px);
+display:flex;justify-content:space-around;align-items:center;
+padding:10px 0 env(safe-area-inset-bottom,14px);
+border-top:1px solid var(–border);
+}
+.nav-btn{
+display:flex;flex-direction:column;align-items:center;gap:3px;
+background:none;border:none;cursor:pointer;-webkit-appearance:none;
+font-family:‘Nunito’,sans-serif;font-weight:700;font-size:0.62rem;
+color:var(–text-faint);padding:4px 12px;transition:all 0.25s var(–bounce);
+text-transform:uppercase;letter-spacing:.8px;
+}
+.nav-btn.active{color:var(–gold)}
+.nav-btn.active .nav-icon{transform:scale(1.2);filter:drop-shadow(0 0 8px var(–gold))}
+.nav-icon{font-size:1.4rem;transition:all 0.25s var(–bounce)}
+
+/* ── SHARED ELEMENTS ── */
+.screen-header{text-align:center;padding:38px 24px 20px}
+.eyebrow{
+display:inline-block;font-family:‘Cinzel’,serif;
+font-size:.65rem;letter-spacing:3px;text-transform:uppercase;
+color:var(–gold-dim);margin-bottom:12px;
+}
+.screen-title{
+font-family:‘Cinzel’,serif;
+font-size:clamp(1.8rem,7vw,2.8rem);
+line-height:1.1;
+background:linear-gradient(135deg,var(–gold) 0%,var(–amber) 50%,var(–teal) 100%);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+margin-bottom:10px;
+}
+.screen-sub{font-size:.88rem;font-weight:600;color:var(–text-dim);max-width:300px;margin:0 auto;line-height:1.6}
+
+.divider{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(–gold-dim),transparent);margin:16px auto}
+
+/* ── CARD BASE ── */
+.card{
+background:#1C1A46;border:1px solid rgba(255,255,255,0.08);
+border-radius:20px;padding:20px;
+box-shadow:0 8px 32px rgba(0,0,0,0.4);
+transition:all .25s cubic-bezier(0.4,0,0.2,1);
+}
+.card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,0.14)}
+
+/* ════════════════════════
+HOME
+════════════════════════ */
+.home-hero{
+text-align:center;padding:52px 24px 24px;
+position:relative;
+}
+.app-sigil{
+font-size:3.5rem;margin-bottom:16px;display:block;
+animation:sigilFloat 4s ease-in-out infinite;
+filter:drop-shadow(0 0 24px rgba(240,192,96,0.6));
+}
+@keyframes sigilFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(1.05)}}
+
+.app-name{
+font-family:‘Cinzel’,serif;
+font-size:clamp(2.4rem,10vw,4rem);
+letter-spacing:2px;
+background:linear-gradient(135deg,#F0C060,#FFD88A,#F0C060);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+display:block;margin-bottom:6px;
+text-shadow:none;
+}
+.app-tagline{
+font-size:.95rem;font-weight:600;color:var(–text-dim);
+line-height:1.6;max-width:280px;margin:0 auto 28px;
+}
+
+.home-quote-card{
+background:linear-gradient(135deg,rgba(155,109,255,0.15),rgba(64,224,200,0.10));
+border:1px solid rgba(155,109,255,0.25);
+border-radius:20px;margin:0 18px 24px;padding:22px;
+text-align:center;
+}
+.home-quote-text{font-size:.96rem;font-weight:700;line-height:1.65;font-style:italic;color:var(–text)}
+.home-quote-by{font-family:‘Cinzel’,serif;font-size:.7rem;color:var(–gold);margin-top:10px;letter-spacing:1.5px}
+
+/* Big nav cards */
+.home-cards{padding:0 16px;display:flex;flex-direction:column;gap:12px}
+.home-nav-card{
+display:flex;align-items:center;gap:16px;
+background-color:#1C1A46;background:#1C1A46;border:1px solid rgba(255,255,255,0.08);
+border-radius:20px;padding:18px 20px;cursor:pointer;
+-webkit-appearance:none;border:none;width:100%;text-align:left;
+transition:all .25s var(–bounce);
+position:relative;overflow:hidden;
+}
+.home-nav-card::before{
+content:’’;position:absolute;inset:0;opacity:0;
+transition:opacity .25s ease;
+}
+.home-nav-card:active{transform:scale(.97)}
+.home-nav-card:hover{transform:translateY(-2px)}
+.home-nav-card:hover::before{opacity:1}
+
+.hnc-feel::before{background:linear-gradient(135deg,rgba(255,112,144,.08),transparent)}
+.hnc-wisdom::before{background:linear-gradient(135deg,rgba(155,109,255,.08),transparent)}
+.hnc-zen::before{background:linear-gradient(135deg,rgba(64,224,200,.08),transparent)}
+.hnc-journal::before{background:linear-gradient(135deg,rgba(240,192,96,.08),transparent)}
+
+.hnc-icon{
+width:52px;height:52px;border-radius:16px;
+display:flex;align-items:center;justify-content:center;
+font-size:1.7rem;flex-shrink:0;
+}
+.hnc-feel .hnc-icon{background:rgba(255,112,144,.15)}
+.hnc-wisdom .hnc-icon{background:rgba(155,109,255,.15)}
+.hnc-zen .hnc-icon{background:rgba(64,224,200,.15)}
+.hnc-journal .hnc-icon{background:rgba(240,192,96,.15)}
+
+.hnc-body{}
+.hnc-title{font-family:‘Cinzel’,serif;font-size:1.05rem;color:var(–text);margin-bottom:3px}
+.hnc-desc{font-size:.78rem;font-weight:600;color:var(–text-dim);line-height:1.4}
+.hnc-arrow{position:absolute;right:18px;font-size:1rem;color:var(–text-faint)}
+
+.soon-chip{
+display:inline-block;background:rgba(64,224,200,.15);
+color:var(–teal);font-size:.58rem;font-weight:800;
+padding:2px 8px;border-radius:50px;text-transform:uppercase;
+letter-spacing:1px;margin-left:6px;vertical-align:middle;
+}
+
+/* ════════════════════════
+FEELINGS
+════════════════════════ */
+.feelings-grid{
+display:grid;grid-template-columns:1fr 1fr;
+gap:10px;padding:0 14px;
+}
+.feeling-card{
+background-color:#1C1A46;background:#1C1A46;border:1px solid rgba(255,255,255,0.08);
+border-radius:18px;padding:16px 12px;text-align:center;
+cursor:pointer;-webkit-appearance:none;
+transition:all .22s var(–bounce);position:relative;overflow:hidden;
+}
+.feeling-card::after{
+content:’’;position:absolute;inset:0;opacity:0;
+border-radius:18px;transition:opacity .2s ease;
+}
+.feeling-card:active{transform:scale(.93)}
+.feeling-card:hover{transform:translateY(-3px)}
+.feeling-card:hover::after{opacity:1}
+
+.fc-mean::after   {background:linear-gradient(135deg,rgba(255,112,144,.12),transparent)}
+.fc-scared::after {background:linear-gradient(135deg,rgba(255,176,64,.12),transparent)}
+.fc-regret::after {background:linear-gradient(135deg,rgba(155,109,255,.12),transparent)}
+.fc-family::after {background:linear-gradient(135deg,rgba(80,232,160,.12),transparent)}
+.fc-alone::after  {background:linear-gradient(135deg,rgba(96,200,255,.12),transparent)}
+.fc-angry::after  {background:linear-gradient(135deg,rgba(255,112,144,.12),transparent)}
+.fc-forgive::after{background:linear-gradient(135deg,rgba(240,192,96,.12),transparent)}
+.fc-lost::after   {background:linear-gradient(135deg,rgba(155,109,255,.12),transparent)}
+
+.fc-mean   {border-color:rgba(255,112,144,.3)}
+.fc-scared {border-color:rgba(255,176,64,.3)}
+.fc-regret {border-color:rgba(155,109,255,.3)}
+.fc-family {border-color:rgba(80,232,160,.3)}
+.fc-alone  {border-color:rgba(96,200,255,.3)}
+.fc-angry  {border-color:rgba(255,112,144,.3)}
+.fc-forgive{border-color:rgba(240,192,96,.3)}
+.fc-lost   {border-color:rgba(155,109,255,.3)}
+
+.fc-emoji{font-size:2rem;display:block;margin-bottom:7px;position:relative;z-index:1}
+.fc-title{font-weight:800;font-size:.82rem;color:var(–text);margin-bottom:3px;position:relative;z-index:1;line-height:1.3}
+.fc-desc {font-weight:600;font-size:.68rem;color:var(–text-dim);line-height:1.3;position:relative;z-index:1}
+
+/* ════════════════════════
+RESPONSE / ZEN MASTER
+════════════════════════ */
+.back-btn{
+display:inline-flex;align-items:center;gap:8px;
+background:rgba(255,255,255,.06);border:1px solid var(–border);
+cursor:pointer;-webkit-appearance:none;font-family:‘Nunito’,sans-serif;
+font-weight:700;font-size:.88rem;color:var(–text-dim);
+padding:10px 18px;margin:18px;border-radius:50px;
+transition:all .2s var(–bounce);
+}
+.back-btn:hover{color:var(–gold);border-color:rgba(240,192,96,.3)}
+
+/* Zen Master avatar panel */
+.zen-panel{
+margin:0 14px 14px;
+background:linear-gradient(160deg,rgba(155,109,255,.15),rgba(64,224,200,.08));
+border:1px solid rgba(155,109,255,.25);border-radius:24px;
+padding:24px 20px;text-align:center;
+position:relative;overflow:hidden;
+}
+.zen-panel::before{
+content:’’;position:absolute;top:-60px;left:50%;transform:translateX(-50%);
+width:200px;height:200px;
+background:radial-gradient(circle,rgba(155,109,255,.3) 0%,transparent 70%);
+pointer-events:none;
+}
+.zen-avatar{
+width:80px;height:80px;border-radius:50%;
+border:3px solid var(–violet);
+display:flex;align-items:center;justify-content:center;
+font-size:2.6rem;margin:0 auto 12px;
+background:rgba(155,109,255,.15);
+box-shadow:0 0 0 8px rgba(155,109,255,.1);
+position:relative;z-index:1;
+animation:avatarGlow 3s ease-in-out infinite alternate;
+}
+@keyframes avatarGlow{from{box-shadow:0 0 0 8px rgba(155,109,255,.1)}to{box-shadow:0 0 0 12px rgba(155,109,255,.2),0 0 30px rgba(155,109,255,.3)}}
+
+.zen-name{font-family:‘Cinzel’,serif;font-size:.7rem;letter-spacing:2px;color:var(–violet);text-transform:uppercase;margin-bottom:6px}
+.zen-feeling-label{font-family:‘Cinzel’,serif;font-size:1.2rem;color:var(–text);margin-bottom:12px}
+
+.zen-response-text{
+font-size:.95rem;font-weight:600;color:var(–text);
+line-height:1.75;text-align:left;
+min-height:80px;
+}
+.zen-thinking{
+display:flex;align-items:center;gap:8px;
+color:var(–text-dim);font-style:italic;font-size:.88rem;
+justify-content:center;padding:12px 0;
+}
+.zen-thinking-dots span{
+display:inline-block;width:6px;height:6px;border-radius:50%;
+background:var(–violet);margin:0 2px;
+animation:thinkDot 1.2s ease-in-out infinite;
+}
+.zen-thinking-dots span:nth-child(2){animation-delay:.2s}
+.zen-thinking-dots span:nth-child(3){animation-delay:.4s}
+@keyframes thinkDot{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-6px);opacity:1}}
+
+.ask-zen-form{margin-top:16px;display:flex;gap:8px}
+.ask-zen-input{
+flex:1;background:rgba(255,255,255,.07);border:1px solid var(–border);
+border-radius:50px;padding:10px 16px;
+font-family:‘Nunito’,sans-serif;font-weight:600;font-size:.88rem;
+color:var(–text);outline:none;transition:border-color .2s ease;
+}
+.ask-zen-input:focus{border-color:rgba(155,109,255,.5)}
+.ask-zen-input::placeholder{color:var(–text-faint)}
+.ask-zen-send{
+width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;
+background:linear-gradient(135deg,var(–violet),var(–sky));
+font-size:1.1rem;-webkit-appearance:none;
+transition:transform .2s var(–bounce);flex-shrink:0;
+}
+.ask-zen-send:active{transform:scale(.9)}
+.ask-zen-send:hover{transform:scale(1.08)}
+
+/* Wisdom boxes */
+.wisdom-quote-box{
+background:rgba(155,109,255,.1);border:1px solid rgba(155,109,255,.2);
+border-radius:18px;padding:16px 18px;margin:0 14px 12px;
+border-left:4px solid var(–violet);
+}
+.wqb-label{font-size:.65rem;font-weight:800;color:var(–violet);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+.wqb-quote{font-size:.93rem;font-weight:700;line-height:1.6;font-style:italic;color:var(–text)}
+.wqb-by{font-size:.75rem;font-weight:700;color:var(–violet);margin-top:6px;font-family:‘Cinzel’,serif;letter-spacing:.5px}
+
+.practice-box{
+background:rgba(64,224,200,.08);border:1px solid rgba(64,224,200,.15);
+border-radius:18px;padding:16px 18px;margin:0 14px 12px;
+border-left:4px solid var(–teal);
+}
+.pb-label{font-size:.65rem;font-weight:800;color:var(–teal);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.pb-steps{list-style:none}
+.pb-steps li{
+padding:7px 0;font-weight:600;font-size:.9rem;color:var(–text-dim);
+display:flex;gap:10px;align-items:flex-start;
+border-bottom:1px solid rgba(255,255,255,.05);
+}
+.pb-steps li:last-child{border-bottom:none}
+.pb-num{
+background:var(–teal);color:var(–void);font-weight:800;
+width:22px;height:22px;border-radius:50%;flex-shrink:0;
+display:flex;align-items:center;justify-content:center;font-size:.72rem;
+}
+.not-alone{
+background:linear-gradient(135deg,rgba(255,112,144,.15),rgba(155,109,255,.15));
+border:1px solid rgba(255,112,144,.2);
+border-radius:18px;margin:0 14px 14px;padding:18px 20px;
+text-align:center;font-weight:800;font-size:.97rem;line-height:1.65;
+}
+.not-alone .na-icon{font-size:1.8rem;display:block;margin-bottom:6px}
+
+/* ════════════════════════
+WISDOM / VIRTUES
+════════════════════════ */
+.tradition-intro{
+background:linear-gradient(135deg,rgba(155,109,255,.12),rgba(64,224,200,.08));
+border:1px solid rgba(155,109,255,.2);
+border-radius:20px;margin:0 14px 18px;padding:18px;text-align:center;
+}
+.tradition-intro h3{font-family:‘Cinzel’,serif;font-size:1rem;color:var(–gold);margin-bottom:6px;letter-spacing:.5px}
+.tradition-intro p{font-size:.83rem;font-weight:600;color:var(–text-dim);line-height:1.55}
+
+.virtues-list{padding:0 14px;display:flex;flex-direction:column;gap:10px}
+.virtue-card{
+background-color:#1C1A46;background:#1C1A46;border-radius:20px;
+padding:18px 16px;border:1px solid var(–border);
+transition:all .22s var(–bounce);cursor:pointer;overflow:hidden;
+position:relative;
+}
+.virtue-card:hover{transform:translateY(-2px)}
+.virtue-card::before{
+content:’’;position:absolute;top:0;left:0;width:4px;height:100%;border-radius:20px 0 0 20px;
+}
+.vc1::before{background:var(–violet)}
+.vc2::before{background:var(–rose)}
+.vc3::before{background:var(–mint)}
+.vc4::before{background:var(–amber)}
+.vc5::before{background:var(–sky)}
+.vc6::before{background:var(–gold)}
+
+.virtue-header{display:flex;align-items:center;gap:12px;margin-bottom:8px;padding-left:10px}
+.virtue-icon-wrap{font-size:1.7rem}
+.virtue-meta{}
+.virtue-latin{font-size:.62rem;font-weight:800;color:var(–text-faint);text-transform:uppercase;letter-spacing:1px;margin-bottom:1px}
+.virtue-name{font-family:‘Cinzel’,serif;font-size:1.15rem;color:var(–text)}
+.virtue-desc{font-size:.84rem;font-weight:600;color:var(–text-dim);line-height:1.55;padding-left:10px}
+.virtue-example{
+margin-top:8px;padding:9px 12px 9px 10px;
+background:rgba(255,255,255,.04);border-radius:10px;
+font-size:.79rem;font-weight:700;color:var(–text-dim);line-height:1.45;font-style:italic;
+}
+
+.quotes-section{margin:20px 14px 0}
+.quotes-title{font-family:‘Cinzel’,serif;font-size:1.1rem;color:var(–gold);margin-bottom:12px;letter-spacing:.5px}
+.phil-card{
+background-color:#1C1A46;background:#1C1A46;border:1px solid rgba(255,255,255,0.08);
+border-radius:16px;padding:14px 16px;margin-bottom:8px;
+border-left:3px solid var(–violet);
+}
+.phil-quote{font-size:.9rem;font-weight:700;line-height:1.6;font-style:italic;color:var(–text)}
+.phil-name{font-family:‘Cinzel’,serif;font-size:.68rem;color:var(–violet);margin-top:6px;letter-spacing:1px}
+
+/* ════════════════════════
+ZEN MASTER SETUP
+════════════════════════ */
+.zen-setup-card{
+background:linear-gradient(160deg,rgba(155,109,255,.15),rgba(64,224,200,.08));
+border:1px solid rgba(155,109,255,.25);
+border-radius:24px;margin:0 14px 16px;padding:22px 20px;text-align:center;
+}
+.zen-setup-card h3{font-family:‘Cinzel’,serif;font-size:1.2rem;color:var(–gold);margin-bottom:6px}
+.zen-setup-card p{font-size:.85rem;font-weight:600;color:var(–text-dim);line-height:1.55;margin-bottom:16px}
+
+.avatar-grid{
+display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+margin-bottom:16px;
+}
+.avatar-option{
+background:rgba(255,255,255,.05);border:2px solid var(–border);
+border-radius:16px;padding:12px 8px;cursor:pointer;
+-webkit-appearance:none;transition:all .2s var(–bounce);
+display:flex;flex-direction:column;align-items:center;gap:5px;
+}
+.avatar-option:active{transform:scale(.93)}
+.avatar-option.selected{border-color:var(–violet);background:rgba(155,109,255,.15)}
+.avatar-option .av-emoji{font-size:2rem}
+.avatar-option .av-name{font-size:.68rem;font-weight:800;color:var(–text-dim);text-transform:uppercase;letter-spacing:.5px}
+
+.zen-name-input{
+width:100%;background:rgba(255,255,255,.07);
+border:1px solid var(–border);border-radius:14px;
+padding:12px 16px;font-family:‘Nunito’,sans-serif;
+font-weight:700;font-size:.95rem;color:var(–text);
+outline:none;text-align:center;margin-bottom:14px;
+transition:border-color .2s ease;
+}
+.zen-name-input:focus{border-color:rgba(155,109,255,.5)}
+.zen-name-input::placeholder{color:var(–text-faint)}
+
+.activate-btn{
+width:100%;padding:15px;border-radius:16px;border:none;cursor:pointer;
+font-family:‘Cinzel’,serif;font-weight:700;font-size:1rem;letter-spacing:1px;
+color:var(–void);
+background:linear-gradient(135deg,var(–gold),var(–amber));
+-webkit-appearance:none;transition:all .2s var(–bounce);
+}
+.activate-btn:active{transform:scale(.96)}
+.activate-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(240,192,96,.35)}
+
+.zen-active-display{
+background:linear-gradient(135deg,rgba(155,109,255,.15),rgba(64,224,200,.08));
+border:1px solid rgba(155,109,255,.25);
+border-radius:20px;margin:0 14px 14px;padding:18px;
+display:flex;align-items:center;gap:14px;
+}
+.zen-active-avatar{
+font-size:2.4rem;width:56px;height:56px;
+border-radius:50%;border:2px solid var(–violet);
+display:flex;align-items:center;justify-content:center;
+background:rgba(155,109,255,.12);flex-shrink:0;
+}
+.zen-active-info h4{font-family:‘Cinzel’,serif;font-size:1rem;color:var(–gold);margin-bottom:3px}
+.zen-active-info p{font-size:.8rem;font-weight:600;color:var(–text-dim);line-height:1.4}
+.zen-change-btn{
+margin-left:auto;background:rgba(255,255,255,.08);border:1px solid var(–border);
+border-radius:50px;padding:6px 12px;cursor:pointer;-webkit-appearance:none;
+font-family:‘Nunito’,sans-serif;font-weight:700;font-size:.7rem;color:var(–text-dim);
+}
+
+.zen-chat-container{
+margin:0 14px 14px;background-color:#1C1A46;background:#1C1A46;
+border:1px solid var(–border);border-radius:20px;
+overflow:hidden;
+}
+.zen-chat-header{
+padding:14px 18px;
+background:rgba(155,109,255,.1);
+border-bottom:1px solid var(–border);
+font-family:‘Cinzel’,serif;font-size:.85rem;color:var(–violet);
+letter-spacing:.5px;
+}
+.zen-chat-body{
+min-height:180px;max-height:320px;overflow-y:auto;
+padding:14px 16px;display:flex;flex-direction:column;gap:10px;
+}
+.chat-msg{
+max-width:82%;padding:10px 14px;border-radius:16px;
+font-size:.88rem;font-weight:600;line-height:1.6;
+}
+.chat-msg.zen{
+background:rgba(155,109,255,.15);border:1px solid rgba(155,109,255,.2);
+align-self:flex-start;color:var(–text);border-radius:4px 16px 16px 16px;
+}
+.chat-msg.user{
+background:rgba(64,224,200,.12);border:1px solid rgba(64,224,200,.2);
+align-self:flex-end;color:var(–text);border-radius:16px 4px 16px 16px;
+}
+.chat-input-row{
+display:flex;gap:8px;padding:10px 12px;
+border-top:1px solid var(–border);
+}
+.chat-input{
+flex:1;background:rgba(255,255,255,.06);border:1px solid var(–border);
+border-radius:50px;padding:9px 14px;
+font-family:‘Nunito’,sans-serif;font-weight:600;font-size:.88rem;
+color:var(–text);outline:none;
+}
+.chat-input:focus{border-color:rgba(155,109,255,.4)}
+.chat-input::placeholder{color:var(–text-faint)}
+.chat-send{
+width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;
+background:linear-gradient(135deg,var(–violet),var(–sky));
+font-size:1rem;-webkit-appearance:none;flex-shrink:0;
+transition:transform .2s var(–bounce);
+}
+.chat-send:active{transform:scale(.88)}
+
+.zen-tip-cards{padding:0 14px;display:flex;flex-direction:column;gap:8px;margin-bottom:4px}
+.zen-tip{
+background:rgba(240,192,96,.08);border:1px solid rgba(240,192,96,.12);
+border-radius:14px;padding:12px 16px;
+font-size:.84rem;font-weight:600;color:var(–text-dim);line-height:1.5;
+cursor:pointer;transition:all .2s ease;
+}
+.zen-tip:hover{background:rgba(240,192,96,.14);color:var(–text)}
+.zen-tip strong{color:var(–gold)}
+
+/* ════════════════════════
+JOURNAL
+════════════════════════ */
+.journal-tabs{
+display:flex;margin:14px 14px 0;
+background-color:rgba(255,255,255,0.05);background:rgba(255,255,255,.05);
+border-radius:14px;padding:4px;
+}
+.jtab{
+flex:1;padding:9px 6px;border:none;cursor:pointer;-webkit-appearance:none;
+font-family:‘Nunito’,sans-serif;font-weight:800;font-size:.72rem;
+background:transparent;color:var(–text-dim);
+border-radius:10px;transition:all .2s ease;text-transform:uppercase;letter-spacing:.6px;
+}
+.jtab.active{background-color:#211F52;background:#211F52;color:#F0C060}
+
+.jtab-content{display:none;padding-top:6px}
+.jtab-content.active{display:block}
+
+/* Benefits banner */
+.journal-benefits{
+margin:14px 14px 0;
+background:linear-gradient(135deg,rgba(240,192,96,.12),rgba(255,176,64,.08));
+border:1px solid rgba(240,192,96,.2);
+border-radius:20px;padding:18px;
+}
+.journal-benefits h3{font-family:‘Cinzel’,serif;font-size:1rem;color:var(–gold);margin-bottom:10px;letter-spacing:.5px}
+.benefit-row{
+display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;
+font-size:.83rem;font-weight:600;color:var(–text-dim);line-height:1.5;
+}
+.benefit-row:last-child{margin-bottom:0}
+.benefit-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px}
+
+/* Write form */
+.write-form{margin:12px 14px 0}
+.form-label{
+font-size:.65rem;font-weight:800;color:var(–text-faint);
+text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;display:block;
+}
+.mood-picker{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.mood-btn{
+padding:5px 12px;border-radius:50px;border:1px solid var(–border);
+background:rgba(255,255,255,.04);cursor:pointer;-webkit-appearance:none;
+font-family:‘Nunito’,sans-serif;font-weight:700;font-size:.78rem;
+color:var(–text-dim);transition:all .18s var(–bounce);
+}
+.mood-btn:hover{border-color:rgba(155,109,255,.4);color:var(–text)}
+.mood-btn.sel{background:rgba(155,109,255,.2);border-color:var(–violet);color:var(–text)}
+
+.journal-textarea{
+width:100%;min-height:130px;
+background-color:rgba(255,255,255,0.05);background:rgba(255,255,255,0.05);
+border:1px solid var(–border);border-radius:16px;
+padding:14px 16px;font-family:‘Nunito’,sans-serif;
+font-weight:600;font-size:.9rem;color:var(–text);
+line-height:1.65;resize:vertical;outline:none;
+transition:border-color .2s ease;
+}
+.journal-textarea:focus{border-color:rgba(155,109,255,.4)}
+.journal-textarea::placeholder{color:var(–text-faint)}
+
+.privacy-row{display:flex;gap:8px;margin:10px 0}
+.priv-btn{
+flex:1;padding:10px 6px;border-radius:12px;
+border:1px solid var(–border);background:rgba(255,255,255,.04);
+cursor:pointer;-webkit-appearance:none;font-family:‘Nunito’,sans-serif;
+font-weight:700;font-size:.78rem;color:var(–text-dim);text-align:center;
+transition:all .2s var(–bounce);
+}
+.priv-btn span{display:block;font-size:1.1rem;margin-bottom:2px}
+.priv-btn.sel-priv{border-color:var(–mint);background:rgba(80,232,160,.12);color:var(–mint)}
+.priv-btn.sel-pub {border-color:var(–sky);background:rgba(96,200,255,.12);color:var(–sky)}
+
+.save-entry-btn{
+width:100%;padding:14px;border-radius:16px;border:none;cursor:pointer;
+font-family:‘Cinzel’,serif;font-weight:700;font-size:.95rem;letter-spacing:.5px;
+color:var(–void);
+background:linear-gradient(135deg,var(–violet),var(–sky));
+-webkit-appearance:none;transition:all .2s var(–bounce);margin-top:4px;
+}
+.save-entry-btn:active{transform:scale(.96)}
+.save-entry-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(155,109,255,.38)}
+
+.save-flash{
+display:none;margin-top:10px;padding:12px 16px;border-radius:12px;
+background:rgba(80,232,160,.12);border:1px solid rgba(80,232,160,.25);
+font-size:.85rem;font-weight:700;color:var(–mint);text-align:center;
+}
+.save-flash.show{display:block}
+
+/* Entry cards */
+.entries-header{
+display:flex;justify-content:space-between;align-items:center;
+margin:16px 14px 10px;
+}
+.entries-title{font-family:‘Cinzel’,serif;font-size:1rem;color:var(–gold);letter-spacing:.5px}
+.filter-row{display:flex;gap:6px;margin:0 14px 10px;flex-wrap:wrap}
+.filt-btn{
+padding:5px 12px;border-radius:50px;border:1px solid var(–border);
+background:rgba(255,255,255,.04);cursor:pointer;-webkit-appearance:none;
+font-family:‘Nunito’,sans-serif;font-weight:700;font-size:.72rem;
+color:var(–text-dim);transition:all .18s ease;
+}
+.filt-btn.active{background:rgba(255,112,144,.15);border-color:var(–rose);color:var(–rose)}
+
+.entry-card{
+background-color:#1C1A46;background:#1C1A46;border:1px solid rgba(255,255,255,0.08);
+border-radius:16px;padding:14px 16px;margin:0 14px 8px;
+border-left:3px solid var(–violet);position:relative;
+}
+.entry-card.pub{border-left-color:var(–sky)}
+.entry-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.entry-tag{
+font-size:.68rem;font-weight:800;background:rgba(155,109,255,.15);
+color:var(–violet);padding:3px 10px;border-radius:50px;
+}
+.entry-tag.pub{background:rgba(96,200,255,.12);color:var(–sky)}
+.entry-date{font-size:.65rem;font-weight:600;color:var(–text-faint)}
+.entry-text{font-size:.86rem;font-weight:600;color:var(–text-dim);line-height:1.55}
+.entry-del{
+position:absolute;top:10px;right:12px;background:none;border:none;
+cursor:pointer;opacity:.3;font-size:.95rem;-webkit-appearance:none;
+}
+.entry-del:hover{opacity:.6}
+
+.empty-state{
+text-align:center;padding:36px 20px;color:var(–text-faint);
+}
+.empty-state .es-icon{font-size:2.8rem;margin-bottom:10px;display:block;opacity:.6}
+.empty-state p{font-weight:700;font-size:.88rem;line-height:1.5}
+
+.wall-notice{
+margin:14px 14px 12px;padding:12px 14px;
+background:rgba(96,200,255,.08);border:1px solid rgba(96,200,255,.15);
+border-radius:12px;font-size:.8rem;font-weight:700;color:var(–sky);line-height:1.5;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes slideUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn  {from{opacity:0}to{opacity:1}}
+.asl{animation:slideUp .42s cubic-bezier(0.34,1.2,0.64,1) both}
+.d1{animation-delay:.04s}.d2{animation-delay:.08s}.d3{animation-delay:.12s}
+.d4{animation-delay:.16s}.d5{animation-delay:.20s}.d6{animation-delay:.24s}
+.d7{animation-delay:.28s}.d8{animation-delay:.32s}
+html{scroll-behavior:smooth}
+</style>
+
+</head>
+<body>
+
+<!-- Cosmos -->
+
+<div class="cosmos">
+  <div class="nebula neb1"></div>
+  <div class="nebula neb2"></div>
+  <div class="nebula neb3"></div>
+</div>
+<div class="starfield" id="starfield"></div>
+
+<!-- ══════════════ DOMŮ ══════════════ -->
+
+<div class="screen active" id="screen-home">
+  <div class="home-hero asl">
+    <span class="app-sigil">✦</span>
+    <span class="app-name">Mistr Mysli</span>
+    <p class="app-tagline">Moudrost starých světů.<br>Tvoje pocity. Tvůj příběh. 🌌</p>
+  </div>
+
+  <div class="home-quote-card asl d2">
+    <p class="home-quote-text">„Máš trpělivost počkat, až se bahno usadí a voda zase zklidní?"</p>
+    <div class="divider"></div>
+    <p class="home-quote-by">✦ Lao Tzu — Tao Te Ching</p>
+  </div>
+
+  <div class="home-cards asl d3">
+    <button class="home-nav-card hnc-feel" onclick="goTo('screen-feel')">
+      <div class="hnc-icon">💭</div>
+      <div class="hnc-body">
+        <div class="hnc-title">Jak se cítím?</div>
+        <div class="hnc-desc">Vyber svůj pocit — dostaneš moudrost z 2&nbsp;000 let</div>
+      </div>
+      <span class="hnc-arrow">›</span>
+    </button>
+
+```
+<button class="home-nav-card hnc-wisdom" onclick="goTo('screen-wisdom')">
+  <div class="hnc-icon">🏛️</div>
+  <div class="hnc-body">
+    <div class="hnc-title">Stoická moudrost</div>
+    <div class="hnc-desc">4 ctnosti + 2 myšlenky, které změní tvůj pohled</div>
+  </div>
+  <span class="hnc-arrow">›</span>
+</button>
+
+<button class="home-nav-card hnc-zen" onclick="goTo('screen-zen')">
+  <div class="hnc-icon">🧘</div>
+  <div class="hnc-body">
+    <div class="hnc-title">Tvůj Zenový Mistr</div>
+    <div class="hnc-desc">Stvoř svoji moudrá verzi sebe a mluv s ní</div>
+  </div>
+  <span class="hnc-arrow">›</span>
+</button>
+
+<button class="home-nav-card hnc-journal" onclick="goTo('screen-journal')">
+  <div class="hnc-icon">📖</div>
+  <div class="hnc-body">
+    <div class="hnc-title">Deník & Nástěnka</div>
+    <div class="hnc-desc">Piš pro sebe nebo sdílej s ostatními</div>
+  </div>
+  <span class="hnc-arrow">›</span>
+</button>
+```
+
+  </div>
+  <div style="height:8px"></div>
+</div>
+
+<!-- ══════════════ POCITY ══════════════ -->
+
+<div class="screen" id="screen-feel">
+  <div class="screen-header asl">
+    <span class="eyebrow">✦ Moudrost na dosah</span>
+    <h1 class="screen-title">Jak se cítím?</h1>
+    <div class="divider"></div>
+    <p class="screen-sub">Klepni na to, co právě prožíváš.<br>Tvůj Zenový Mistr odpoví. 🌌</p>
+  </div>
+
+  <div class="feelings-grid">
+    <div class="feeling-card fc-mean  asl d1" onclick="showResponse('mean')">
+      <span class="fc-emoji">😤</span>
+      <div class="fc-title">Někdo se ke mně choval ošklivě</div>
+      <div class="fc-desc">Šikana, zlá slova, vyloučení</div>
+    </div>
+    <div class="feeling-card fc-scared asl d2" onclick="showResponse('scared')">
+      <span class="fc-emoji">😨</span>
+      <div class="fc-title">Bojím se budoucnosti</div>
+      <div class="fc-desc">Škola, změna, neznámo</div>
+    </div>
+    <div class="feeling-card fc-regret asl d3" onclick="showResponse('regret')">
+      <span class="fc-emoji">😔</span>
+      <div class="fc-title">Lituji něčeho</div>
+      <div class="fc-desc">Řekl/a jsem špatnou věc</div>
+    </div>
+    <div class="feeling-card fc-family asl d4" onclick="showResponse('family')">
+      <span class="fc-emoji">🏠</span>
+      <div class="fc-title">Hádám se s rodinou</div>
+      <div class="fc-desc">Rodiče, sourozenci, doma</div>
+    </div>
+    <div class="feeling-card fc-alone  asl d5" onclick="showResponse('alone')">
+      <span class="fc-emoji">🌧️</span>
+      <div class="fc-title">Cítím se vyloučený/á</div>
+      <div class="fc-desc">Osamělý/á, neviditelný/á</div>
+    </div>
+    <div class="feeling-card fc-angry  asl d6" onclick="showResponse('angry')">
+      <span class="fc-emoji">🔥</span>
+      <div class="fc-title">Jsem opravdu naštvaný/á</div>
+      <div class="fc-desc">Vztek, frustrace, není fér</div>
+    </div>
+    <div class="feeling-card fc-forgive asl d7" onclick="showResponse('forgive')">
+      <span class="fc-emoji">🕊️</span>
+      <div class="fc-title">Potřebuji odpustit</div>
+      <div class="fc-desc">Někdo mi ublížil</div>
+    </div>
+    <div class="feeling-card fc-lost   asl d8" onclick="showResponse('lost')">
+      <span class="fc-emoji">🌱</span>
+      <div class="fc-title">Kdo vlastně jsem?</div>
+      <div class="fc-desc">Ztracený/á, hledám sebe</div>
+    </div>
+  </div>
+  <div style="height:8px"></div>
+</div>
+
+<!-- ══════════════ ODPOVĚĎ ══════════════ -->
+
+<div class="screen" id="screen-response">
+  <button class="back-btn" onclick="goTo('screen-feel')">← Zpět na pocity</button>
+  <div id="response-content"></div>
+</div>
+
+<!-- ══════════════ MOUDROST ══════════════ -->
+
+<div class="screen" id="screen-wisdom">
+  <div class="screen-header asl">
+    <span class="eyebrow">✦ Starověká filozofie</span>
+    <h1 class="screen-title">Stoická moudrost</h1>
+    <div class="divider"></div>
+    <p class="screen-sub">4 ctnosti Řeků a Římanů — platí dodnes, slovo od slova.</p>
+  </div>
+
+  <div class="tradition-intro asl d2">
+    <h3>Co je stoicismus? 🏛️</h3>
+    <p>Marcus Aurelius, Seneca, Epiktétos — žili před 2&nbsp;000 lety a přišli na to, jak zvládnout <em>cokoli</em>, co život přinese. Jejich systém stojí na čtyřech ctnostech. Ovládni je a nic tě neshodí.</p>
+  </div>
+
+  <div class="virtues-list">
+    <div class="virtue-card vc1 asl d1">
+      <div class="virtue-header"><span class="virtue-icon-wrap">🧠</span><div class="virtue-meta"><div class="virtue-latin">Sophia · Prudentia</div><div class="virtue-name">Moudrost</div></div></div>
+      <p class="virtue-desc">Základ všeho. Vědět, co je dobré, co je špatné a co je jedno. Přemýšlet, než jednáš. Skutečně chápeš situaci — nebo jen reaguješ?</p>
+      <p class="virtue-example">„Než odpovíš na zprávu, která tě naštve — počkej 10 minut. To je moudrost v akci."</p>
+    </div>
+    <div class="virtue-card vc2 asl d2">
+      <div class="virtue-header"><span class="virtue-icon-wrap">🦁</span><div class="virtue-meta"><div class="virtue-latin">Andreia · Fortitudo</div><div class="virtue-name">Odvaha</div></div></div>
+      <p class="virtue-desc">Dělat správnou věc, i když je to těžké nebo se bojíš. Odvaha neznamená nemít strach — znamená jednat správně <em>přes</em> strach.</p>
+      <p class="virtue-example">„Zastat se spolužáka, i když riskuješ nepřátelství ostatních — to je pravá odvaha."</p>
+    </div>
+    <div class="virtue-card vc3 asl d3">
+      <div class="virtue-header"><span class="virtue-icon-wrap">⚖️</span><div class="virtue-meta"><div class="virtue-latin">Dikaiosyné · Iustitia</div><div class="virtue-name">Spravedlnost</div></div></div>
+      <p class="virtue-desc">Zacházet s každým laskavě a spravedlivě. Stoici věřili, že žijeme pro komunitu — ne jen pro sebe. Tvůj charakter se tvoří v tom, jak jednáš s druhými.</p>
+      <p class="virtue-example">„Říct pravdu, i když je nepříjemná. Být laskavý i k těm, kteří ti nejsou sympatičtí."</p>
+    </div>
+    <div class="virtue-card vc4 asl d4">
+      <div class="virtue-header"><span class="virtue-icon-wrap">🧘</span><div class="virtue-meta"><div class="virtue-latin">Sophrosyne · Temperantia</div><div class="virtue-name">Sebeovládání</div></div></div>
+      <p class="virtue-desc">Mezi podnětem a reakcí je prostor. V tom prostoru leží tvoje svoboda. Tvoje reakce je <em>vždy</em> tvoje volba — to ti nikdo nevezme.</p>
+      <p class="virtue-example">„Někdo tě naštve. Dech. Pauza. Teprve pak volíš, jak odpovíš. To je síla, ne slabost."</p>
+    </div>
+    <div class="virtue-card vc5 asl d5">
+      <div class="virtue-header"><span class="virtue-icon-wrap">🎯</span><div class="virtue-meta"><div class="virtue-latin">Dikotomia tou eph'hēmin</div><div class="virtue-name">Co mohu ovlivnit?</div></div></div>
+      <p class="virtue-desc">Dva druhy věcí: co ovlivnit <em>můžeš</em> (myšlenky, rozhodnutí, činy) a co ovlivnit <em>nemůžeš</em> (co říkají ostatní, výsledky, počasí). Soustřeď se <em>jen</em> na první skupinu.</p>
+      <p class="virtue-example">„Nemůžeš ovlivnit, jestli tě třída obdivuje. Můžeš ovlivnit, jestli ty jednáš s odvahou. To je tvoje moc."</p>
+    </div>
+    <div class="virtue-card vc6 asl d6">
+      <div class="virtue-header"><span class="virtue-icon-wrap">🌟</span><div class="virtue-meta"><div class="virtue-latin">Amor Fati</div><div class="virtue-name">Miluj svůj osud</div></div></div>
+      <p class="virtue-desc">Aktivně miluj vše, co přichází — i ty těžké části. Každá překážka je tajně dveřmi. Každá ztráta nese poučení. Katastrofa může být začátek poslání.</p>
+      <p class="virtue-example">„Propadl/a jsi zkoušce. Stalo se. Co tě to naučilo? Co teď uděláš jinak? <em>To</em> je Amor Fati."</p>
+    </div>
+  </div>
+
+  <div class="quotes-section">
+    <p class="quotes-title">✦ Slova moudrých</p>
+    <div class="phil-card asl d1"><p class="phil-quote">„Máš moc nad svou myslí — ne nad vnějšími událostmi. Uvědom si to, a najdeš sílu."</p><p class="phil-name">— Marcus Aurelius</p></div>
+    <div class="phil-card asl d2"><p class="phil-quote">„Trpíme víc ve své představivosti než ve skutečnosti."</p><p class="phil-name">— Seneca</p></div>
+    <div class="phil-card asl d3"><p class="phil-quote">„Nejdřív řekni sobě, kým chceš být. Pak dělej to, co je nutné."</p><p class="phil-name">— Epiktétos</p></div>
+    <div class="phil-card asl d4"><p class="phil-quote">„Překážka v cestě se stává samotnou cestou."</p><p class="phil-name">— Marcus Aurelius</p></div>
+    <div class="phil-card asl d5"><p class="phil-quote">„Neplýtvej časem přemýšlením o tom, jaký by měl být dobrý člověk. Prostě jím buď."</p><p class="phil-name">— Marcus Aurelius</p></div>
+  </div>
+  <div style="height:12px"></div>
+</div>
+
+<!-- ══════════════ ZENOVÝ MISTR ══════════════ -->
+
+<div class="screen" id="screen-zen">
+  <div class="screen-header asl">
+    <span class="eyebrow">✦ Tvůj vnitřní hlas</span>
+    <h1 class="screen-title">Zenový Mistr</h1>
+    <div class="divider"></div>
+    <p class="screen-sub">Stvoř moudrou verzi sebe.<br>Ptej se. Naslouchej. Rosteš. 🧘</p>
+  </div>
+
+  <!-- Setup (shown when no avatar chosen) -->
+
+  <div id="zen-setup">
+    <div class="zen-setup-card asl d2">
+      <h3>✦ Probuď svého Mistra</h3>
+      <p>Vyber si podobu své moudré vnitřní verze. Dej mu/jí jméno. A začněte mluvit.</p>
+
+```
+  <label class="form-label" style="text-align:left;margin-bottom:10px">Vyber svoji podobu:</label>
+  <div class="avatar-grid" id="avatarGrid">
+    <button class="avatar-option" onclick="selectAvatar(this,'🧘','Zenový mnich')">
+      <span class="av-emoji">🧘</span><span class="av-name">Mnich</span>
+    </button>
+    <button class="avatar-option" onclick="selectAvatar(this,'🦉','Moudrá sova')">
+      <span class="av-emoji">🦉</span><span class="av-name">Sova</span>
+    </button>
+    <button class="avatar-option" onclick="selectAvatar(this,'⭐','Hvězdný mudrc')">
+      <span class="av-emoji">⭐</span><span class="av-name">Mudrc</span>
+    </button>
+    <button class="avatar-option" onclick="selectAvatar(this,'🌊','Tichý oceán')">
+      <span class="av-emoji">🌊</span><span class="av-name">Oceán</span>
+    </button>
+    <button class="avatar-option" onclick="selectAvatar(this,'🌙','Noční stráž')">
+      <span class="av-emoji">🌙</span><span class="av-name">Noc</span>
+    </button>
+    <button class="avatar-option" onclick="selectAvatar(this,'🏔️','Tichá hora')">
+      <span class="av-emoji">🏔️</span><span class="av-name">Hora</span>
+    </button>
+  </div>
+
+  <label class="form-label" style="text-align:left;margin-bottom:8px">Dej mu/jí jméno:</label>
+  <input class="zen-name-input" id="zenNameInput" placeholder="např. Mistr Lao, Sofia, Hlubina..." maxlength="30">
+
+  <button class="activate-btn" onclick="activateZen()">✦ Probudit Mistra</button>
+</div>
+```
+
+  </div>
+
+  <!-- Active Zen Master -->
+
+  <div id="zen-active" style="display:none">
+    <div class="zen-active-display asl">
+      <div class="zen-active-avatar" id="zenActiveEmoji">🧘</div>
+      <div class="zen-active-info">
+        <h4 id="zenActiveName">Mistr</h4>
+        <p>Tvůj moudrý vnitřní hlas. Vždy zde.</p>
+      </div>
+      <button class="zen-change-btn" onclick="resetZen()">Změnit</button>
+    </div>
+
+```
+<div class="zen-chat-container asl d2">
+  <div class="zen-chat-header">✦ Rozhovor s Mistrem</div>
+  <div class="zen-chat-body" id="zenChatBody">
+    <div class="chat-msg zen" id="zenWelcomeMsg">Jsem tady. Zeptej se mě na cokoli — na pocit, na situaci, na pochybnost. Jsem tvůj moudrý hlas zevnitř. 🌌</div>
+  </div>
+  <div class="chat-input-row">
+    <input class="chat-input" id="zenChatInput" placeholder="Napiš otázku nebo pocit..." onkeydown="if(event.key==='Enter')sendZenMessage()">
+    <button class="chat-send" onclick="sendZenMessage()">→</button>
+  </div>
+</div>
+
+<div style="padding:0 14px;margin-bottom:8px">
+  <p class="form-label" style="margin-bottom:8px">✦ Zkus se zeptat:</p>
+</div>
+<div class="zen-tip-cards">
+  <div class="zen-tip" onclick="askPrompt('Mám ve škole problém — někdo se ke mně chová ošklivě. Co mám dělat?')"><strong>💭</strong> „Mám ve škole problém. Co mám dělat?"</div>
+  <div class="zen-tip" onclick="askPrompt('Bojím se budoucnosti a nevím, co bude. Pomoz mi.')"><strong>😨</strong> „Bojím se budoucnosti. Pomoz mi."</div>
+  <div class="zen-tip" onclick="askPrompt('Cítím se ztracený/á. Kdo vlastně jsem?')"><strong>🌱</strong> „Cítím se ztracený/á. Kdo jsem?"</div>
+  <div class="zen-tip" onclick="askPrompt('Jsem naštvaný/á a nevím, jak se uklidnit.')"><strong>🔥</strong> „Jsem naštvaný/á. Jak se uklidnit?"</div>
+</div>
+```
+
+  </div>
+  <div style="height:8px"></div>
+</div>
+
+<!-- ══════════════ DENÍK ══════════════ -->
+
+<div class="screen" id="screen-journal">
+  <div class="screen-header asl">
+    <span class="eyebrow">✦ Tvůj vnitřní prostor</span>
+    <h1 class="screen-title">Deník</h1>
+    <div class="divider"></div>
+    <p class="screen-sub">Piš pro sebe. Sdílej s ostatními.<br>Tady jsi v bezpečí. 🌌</p>
+  </div>
+
+  <div class="journal-tabs asl d2">
+    <button class="jtab active" onclick="switchJTab('jtab-write', this)">✏️ Psát</button>
+    <button class="jtab"        onclick="switchJTab('jtab-mine',  this)">📚 Moje zápisky</button>
+    <button class="jtab"        onclick="switchJTab('jtab-wall',  this)">🌍 Nástěnka</button>
+  </div>
+
+  <!-- WRITE -->
+
+  <div class="jtab-content active" id="jtab-write">
+    <div class="journal-benefits asl d3">
+      <h3>✦ Proč psát deník?</h3>
+      <div class="benefit-row"><span class="benefit-icon">🧠</span>Psaní uklidňuje mozek — dostaneš pocity z hlavy ven a přestaneš je přehrávat dokola.</div>
+      <div class="benefit-row"><span class="benefit-icon">🔍</span>Časem uvidíš vzorce — co tě trápí, co tě raduje — a poznáš sám/sama sebe lépe.</div>
+      <div class="benefit-row"><span class="benefit-icon">💪</span>Výzkumy ukazují: lidé, kteří píší deník, jsou odolnější v těžkých chvílích.</div>
+      <div class="benefit-row"><span class="benefit-icon">🌱</span>Marcus Aurelius si psal deník každý den. Stal se jedním z nejmoudřejších lidí v historii.</div>
+    </div>
+
+```
+<div class="write-form asl d4">
+  <label class="form-label">Jak se dnes cítíš?</label>
+  <div class="mood-picker" id="moodPicker">
+    <button class="mood-btn" onclick="pickMood(this,'😤 Naštvaný/á')">😤</button>
+    <button class="mood-btn" onclick="pickMood(this,'😨 Bojím se')">😨</button>
+    <button class="mood-btn" onclick="pickMood(this,'😔 Lituji')">😔</button>
+    <button class="mood-btn" onclick="pickMood(this,'🌧️ Osamělý/á')">🌧️</button>
+    <button class="mood-btn" onclick="pickMood(this,'💛 Vděčný/á')">💛</button>
+    <button class="mood-btn" onclick="pickMood(this,'🌟 Šťastný/á')">🌟</button>
+    <button class="mood-btn" onclick="pickMood(this,'🔥 Naštvaný/á')">🔥</button>
+    <button class="mood-btn" onclick="pickMood(this,'🤔 Zmatený/á')">🤔</button>
+    <button class="mood-btn" onclick="pickMood(this,'🕊️ Klidný/á')">🕊️</button>
+    <button class="mood-btn" onclick="pickMood(this,'💪 Silný/á')">💪</button>
+  </div>
+
+  <label class="form-label" style="margin-top:4px">Co ti leží na srdci?</label>
+  <textarea class="journal-textarea" id="journalText"
+    placeholder="Napiš cokoli... nikdo to neuvidí, pokud nechceš. &#10;&#10;Co se stalo? Co cítíš? Co by ti řekla tvoje moudrá část?"></textarea>
+
+  <label class="form-label" style="margin-top:12px">Sdílet?</label>
+  <div class="privacy-row">
+    <button class="priv-btn sel-priv" id="privBtn" onclick="setPriv('priv')">
+      <span>🔒</span>Jen pro mě
+    </button>
+    <button class="priv-btn" id="pubBtn" onclick="setPriv('pub')">
+      <span>🌍</span>Na nástěnku
+    </button>
+  </div>
+
+  <button class="save-entry-btn" onclick="saveEntry()">✦ Uložit do deníku</button>
+  <div class="save-flash" id="saveFlash">✅ Uloženo! Psaní o pocitech je první krok k moudrosti. 🌱</div>
+</div>
+```
+
+  </div>
+
+  <!-- MINE -->
+
+  <div class="jtab-content" id="jtab-mine">
+    <div class="entries-header"><span class="entries-title">✦ Tvoje zápisky</span></div>
+    <div class="filter-row">
+      <button class="filt-btn active" onclick="filt('all',this)">Vše</button>
+      <button class="filt-btn" onclick="filt('priv',this)">🔒 Soukromé</button>
+      <button class="filt-btn" onclick="filt('pub',this)">🌍 Veřejné</button>
+    </div>
+    <div id="entriesList"></div>
+  </div>
+
+  <!-- WALL -->
+
+  <div class="jtab-content" id="jtab-wall">
+    <div class="wall-notice">🌍 <strong>Nástěnka moudrosti</strong> — zápisky, které děti sdílely s ostatními. Nejsi sám/sama se svými pocity.</div>
+    <div id="wallList"></div>
+  </div>
+
+  <div style="height:8px"></div>
+</div>
+
+<!-- ══════════════ NAV ══════════════ -->
+
+<nav class="bottom-nav">
+  <button class="nav-btn active" id="nav-home"    onclick="goTo('screen-home')">   <span class="nav-icon">✦</span>Domů</button>
+  <button class="nav-btn"        id="nav-feel"    onclick="goTo('screen-feel')">   <span class="nav-icon">💭</span>Pocity</button>
+  <button class="nav-btn"        id="nav-wisdom"  onclick="goTo('screen-wisdom')"> <span class="nav-icon">🏛️</span>Moudrost</button>
+  <button class="nav-btn"        id="nav-zen"     onclick="goTo('screen-zen')">    <span class="nav-icon">🧘</span>Mistr</button>
+  <button class="nav-btn"        id="nav-journal" onclick="goTo('screen-journal')" ><span class="nav-icon">📖</span>Deník</button>
+</nav>
+
+<script>
+/* ── STARFIELD ── */
+const sf=document.getElementById('starfield');
+for(let i=0;i<80;i++){
+  const s=document.createElement('div');s.className='star-dot';
+  const sz=Math.random()*2.5+.5;
+  s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;background:rgba(255,255,255,${.2+Math.random()*.8});animation-delay:${Math.random()*5}s;animation-duration:${2+Math.random()*4}s;`;
+  sf.appendChild(s);
+}
+
+/* ── NAVIGATION ── */
+const navMap={'screen-home':'nav-home','screen-feel':'nav-feel','screen-wisdom':'nav-wisdom','screen-zen':'nav-zen','screen-journal':'nav-journal'};
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  if(navMap[id])document.getElementById(navMap[id]).classList.add('active');
+  if(id==='screen-journal'){renderEntries('all');renderWall()}
+}
+
+/* ── JOURNAL STATE ── */
+let currentMood='',currentPriv='priv',currentFilt='all';
+function pickMood(btn,mood){document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');currentMood=mood}
+function setPriv(p){
+  currentPriv=p;
+  document.getElementById('privBtn').className='priv-btn'+(p==='priv'?' sel-priv':'');
+  document.getElementById('pubBtn').className ='priv-btn'+(p==='pub' ?' sel-pub':'');
+}
+function saveEntry(){
+  const txt=document.getElementById('journalText').value.trim();
+  if(!txt){alert('Nejdřív napiš něco 💛');return}
+  const e={id:Date.now(),mood:currentMood||'📝',text:txt,priv:currentPriv,date:new Date().toLocaleDateString('cs-CZ',{day:'numeric',month:'long',year:'numeric'})};
+  const arr=getEntries();arr.unshift(e);localStorage.setItem('mm_entries',JSON.stringify(arr));
+  document.getElementById('journalText').value='';
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('sel'));
+  currentMood='';setPriv('priv');
+  const f=document.getElementById('saveFlash');f.classList.add('show');setTimeout(()=>f.classList.remove('show'),3500);
+  renderEntries(currentFilt);
+}
+function getEntries(){try{return JSON.parse(localStorage.getItem('mm_entries')||'[]')}catch{return[]}}
+function delEntry(id){const a=getEntries().filter(e=>e.id!==id);localStorage.setItem('mm_entries',JSON.stringify(a));renderEntries(currentFilt);renderWall()}
+function filt(t,btn){currentFilt=t;document.querySelectorAll('.filt-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderEntries(t)}
+function renderEntries(f){
+  const list=document.getElementById('entriesList');if(!list)return;
+  let arr=getEntries();
+  if(f==='priv')arr=arr.filter(e=>e.priv==='priv');
+  if(f==='pub') arr=arr.filter(e=>e.priv==='pub');
+  if(!arr.length){list.innerHTML=`<div class="empty-state"><span class="es-icon">✏️</span><p>Zatím žádné zápisky.<br>Napiš první — jsi odvážný/á! 🌱</p></div>`;return}
+  list.innerHTML=arr.map(e=>`<div class="entry-card ${e.priv==='pub'?'pub':''}"><button class="entry-del" onclick="delEntry(${e.id})">🗑️</button><div class="entry-top"><span class="entry-tag ${e.priv==='pub'?'pub':''}">${e.mood} ${e.priv==='pub'?'🌍':'🔒'}</span><span class="entry-date">${e.date}</span></div><div class="entry-text">${e.text.replace(/\n/g,'<br>')}</div></div>`).join('');
+}
+function renderWall(){
+  const wall=document.getElementById('wallList');if(!wall)return;
+  const arr=getEntries().filter(e=>e.priv==='pub');
+  if(!arr.length){wall.innerHTML=`<div class="empty-state"><span class="es-icon">🌍</span><p>Zatím prázdná.<br>Sdílej první zápis! 💛</p></div>`;return}
+  wall.innerHTML=arr.map(e=>`<div class="entry-card pub" style="margin:0 14px 8px"><div class="entry-top"><span class="entry-tag pub">${e.mood} 🌍</span><span class="entry-date">${e.date}</span></div><div class="entry-text">${e.text.replace(/\n/g,'<br>')}</div></div>`).join('');
+}
+function switchJTab(id,btn){
+  document.querySelectorAll('.jtab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.jtab').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');btn.classList.add('active');
+  if(id==='jtab-mine')renderEntries(currentFilt);
+  if(id==='jtab-wall')renderWall();
+}
+
+/* ── ZEN MASTER ── */
+let zenAvatar='🧘',zenAvatarLabel='Mnich',zenName='';
+function selectAvatar(btn,emoji,label){
+  document.querySelectorAll('.avatar-option').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');zenAvatar=emoji;zenAvatarLabel=label;
+}
+function activateZen(){
+  const name=document.getElementById('zenNameInput').value.trim();
+  if(!name){alert('Dej svému Mistrovi jméno 🌟');return}
+  zenName=name;
+  document.getElementById('zen-setup').style.display='none';
+  document.getElementById('zen-active').style.display='block';
+  document.getElementById('zenActiveEmoji').textContent=zenAvatar;
+  document.getElementById('zenActiveName').textContent=zenName;
+  document.getElementById('zenWelcomeMsg').textContent=`Jsem ${zenName}. Jsem tvůj moudrý hlas zevnitř — ${zenAvatarLabel.toLowerCase()} tvé duše. Zeptej se mě na cokoli. 🌌`;
+}
+function resetZen(){
+  document.getElementById('zen-setup').style.display='block';
+  document.getElementById('zen-active').style.display='none';
+  document.getElementById('zenChatBody').innerHTML='<div class="chat-msg zen" id="zenWelcomeMsg">Jsem tady. Zeptej se mě na cokoli. 🌌</div>';
+}
+function askPrompt(text){
+  document.getElementById('zenChatInput').value=text;
+  sendZenMessage();
+}
+
+async function sendZenMessage(){
+  const input=document.getElementById('zenChatInput');
+  const msg=input.value.trim();if(!msg)return;
+  input.value='';
+  const body=document.getElementById('zenChatBody');
+
+  // User message
+  const userDiv=document.createElement('div');
+  userDiv.className='chat-msg user';userDiv.textContent=msg;
+  body.appendChild(userDiv);body.scrollTop=body.scrollHeight;
+
+  // Thinking indicator
+  const thinkDiv=document.createElement('div');
+  thinkDiv.className='chat-msg zen zen-thinking';
+  thinkDiv.innerHTML=`<span>${zenName||'Mistr'} přemýšlí</span><span class="zen-thinking-dots"><span></span><span></span><span></span></span>`;
+  body.appendChild(thinkDiv);body.scrollTop=body.scrollHeight;
+
+  const systemPrompt=`Jsi ${zenName||'Moudrý Mistr'} — moudrá, laskavá vnitřní verze dítěte/mladého člověka ve věku 8–15 let. Mluvíš česky. Jsi jako ${zenAvatarLabel||'zenový mistr'} — klidný, hluboký, bez odsuzování.
+
+Tvůj styl:
+- Mluvíš k dítěti jako moudrý přítel, ne jako dospělý nebo učitel
+- Krátké věty. Konkrétní. Upřímné. Bez klišé.
+- Vždy validuješ pocit dítěte — nejdřív
+- Pak přidáš stoickou nebo zenovou moudrost — jednoduše, příkladem
+- Zakončíš jednou praktickou radou nebo otázkou k zamyšlení
+- Maximálně 4–5 vět celkem
+- Nikdy neradíš dítěti dělat cokoliv nebezpečného nebo neřest
+- Pokud dítě zmiňuje ublížení sobě nebo druhým — nasměruj je k důvěryhodné dospělé osobě
+
+Jsi ${zenAvatar} — ${zenAvatarLabel} jejich duše.`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:300,
+        system:systemPrompt,
+        messages:[{role:'user',content:msg}]
+      })
+    });
+    const data=await res.json();
+    thinkDiv.remove();
+    const zenReply=data.content?.[0]?.text||'Zamysli se nad tím v klidu. Odpověď je v tobě. 🌌';
+    const zenDiv=document.createElement('div');
+    zenDiv.className='chat-msg zen';zenDiv.textContent=zenReply;
+    body.appendChild(zenDiv);body.scrollTop=body.scrollHeight;
+  }catch(err){
+    thinkDiv.remove();
+    const errDiv=document.createElement('div');
+    errDiv.className='chat-msg zen';
+    errDiv.textContent='Tichá chvíle. Zamysli se v klidu nad svým pocitem. Co ti říká tvůj vnitřní hlas? 🌌';
+    body.appendChild(errDiv);body.scrollTop=body.scrollHeight;
+  }
+}
+
+/* ── FEELING RESPONSES ── */
+const responses={
+  mean:{emoji:'😤',title:'Když se někdo choval ošklivě',pill:'Stoická ctnost: Sebeovládání',
+    body:`Bolí to — a ta bolest je skutečná. Ale tady je moudrost, kterou stoici znali před 2&nbsp;000 lety: <strong>nemůžeš ovládnout, co dělají ostatní — jen to, jak reaguješ ty.</strong><br><br>Jejich krutost říká vše o <em>nich</em>. A nic o tvé hodnotě.`,
+    quote:'„Máš moc nad svou myslí — ne nad vnějšími událostmi."',philosopher:'Marcus Aurelius',
+    practice:['Dýchej třikrát zhluboka. Nech první vlnu hněvu odeznít.','Zapiš si, co se stalo a jak se při tom cítíš.','Zeptej se: Mohu ovlivnit jejich chování? (Ne.) Mohu ovlivnit svou reakci? (Ano.)','Řekni to důvěryhodné dospělé osobě — nemusíš to nést sám/sama.'],
+    videoId:null,videoTitle:'🎬 Mistr Mysli — Šikana',videoNote:'Video brzy — Projekt Moudrost'},
+  scared:{emoji:'😨',title:'Když se bojíš budoucnosti',pill:'Stoická myšlenka: Logos',
+    body:`Strach z budoucnosti je jedním z nejběžnějších pocitů. Zažívají ho i dospělí — každý den. Seneca řekl: <strong>trpíme mnohem víc ve své představivosti než ve skutečnosti.</strong><br><br>Tvůj mozek se tě snaží chránit. Ale věci dělá větší, než jsou.`,
+    quote:'„Trpíme víc ve své představivosti než ve skutečnosti."',philosopher:'Seneca',
+    practice:['Zapiš svůj strach do jedné jasné věty.','Zeptej se: Co nejhoršího by se opravdu mohlo stát?','Zeptej se: Kdybych to přežil/a — mohl/a bych se vzpamatovat? (Téměř vždy: ano.)','Soustřeď se jen na to, co můžeš udělat DNES. Jeden krok.'],
+    videoId:null,videoTitle:'🎬 Mistr Mysli — Strach',videoNote:'Video brzy'},
+  regret:{emoji:'😔',title:'Když lituješ něčeho',pill:'Stoická myšlenka: Amor Fati',
+    body:`Lítost znamená, že ti záleží — a to je znamení dobrého charakteru. Stoici věřili v <strong>Amor Fati</strong>: miluj svůj osud, včetně chyb. Nejsou to selhání — jsou to učitelé.<br><br>Teď nezáleží na tom, co jsi udělal/a. Záleží na tom, co zvolíš dál.`,
+    quote:'„Využij co nejlépe to, co je v tvé moci, a zbytek nech tak."',philosopher:'Epiktétos',
+    practice:['Přiznej si upřímně: „Udělal/a jsem chybu. To je lidské."','Pokud jsi ublížil/a — omluv se. Upřímné sorry je odvaha.','Zeptej se: Co mě to naučilo? Zapiš si poučení.','Pak: pusť to. Minulost nezměníš. Dnešek ano.'],
+    videoId:null,videoTitle:'🎬 Mistr Mysli — Lítost',videoNote:'Video brzy'},
+  family:{emoji:'🏠',title:'Když je doma těžko',pill:'Stoická ctnost: Spravedlnost',
+    body:`Hádat se s lidmi, které miluješ, je jeden z nejzaváděcnějších pocitů vůbec. Můžeš být na někoho naštvaný/á <em>a zároveň</em> ho milovat. To není divné — to je rodina.<br><br>Stoici věřili ve <strong>Spravedlnost</strong>: úctu ke každému, i v konfliktu. Zvláště v konfliktu.`,
+    quote:'„Neplýtvej časem přemýšlením o tom, jaký by měl být dobrý člověk. Prostě jím buď."',philosopher:'Marcus Aurelius',
+    practice:['Před mluvením: pět nádechů. Vážně — funguje to.','Zkus říkat, co TY cítíš, ne co udělal/a DRUHÝ/Á.','Zeptej se: Co tato osoba teď potřebuje? Ne jen ty.','Hádka pomine. Vztah trvá.'],
+    videoId:null,videoTitle:'🎬 Mistr Mysli — Rodina',videoNote:'Video brzy'},
+  alone:{emoji:'🌧️',title:'Když se cítíš vyloučený/á',pill:'Stoická ctnost: Odvaha',
+    body:`Cítit se neviditelně nebo vyloučeně je jedním z nejbolestivějších pocitů. Nevymýšlíš si — je to skutečné.<br><br>Ale tady je pravda: <strong>nejsi nikdy tak sám/sama, jak se v daném okamžiku cítíš.</strong> Tvá hodnota nikdy nezávisela na tom, zda tě ostatní zahrnují.`,
+    quote:'„Nikdy nezáviset na obdivu druhých. V tom není žádná síla."',philosopher:'Epiktétos',
+    practice:['Zapiš si 3 věci, které tě dělají jedinečně tebou.','Ozvi se jedné osobě — zpráva, cokoliv malého.','Udělej dnes jednu věc, kterou miluješ — jen pro sebe.','Sounáležitost přichází ze sebou samotného — ne z předvádění se pro druhé.'],
+    videoId:null,videoTitle:'🎬 Mistr Mysli — Osamělost',videoNote:'Video brzy'},
+  angry:{emoji:'🔥',title:'Když jsi opravdu naštvaný/á',pill:'Stoická ctnost: Sebeovládání',
+    body:`Vztek není problém. Vztek je posel. Říká ti, že ti na něčem záleží, že se něco zdá nespravedlivé.<br><br>Stoici neříkali „nezlobte se." Říkali: <strong>zastav se, než budeš jednat.</strong> V té pauze žije tvoje moc.`,
+    quote:'„Nejlepší pomsta je být nepodobný tomu, kdo spáchal nespravedlnost."',philosopher:'Marcus Aurelius',
+    practice:['STOP. Nic neříkej ani nepište po dobu 60 sekund.','Jdi fyzicky pryč — chůze, pohyb těla.','Zeptej se: Je tento vztek o TOMTO okamžiku — nebo o něčem starším?','Až budeš klidný/á: vyjádři, co potřebuješ.'],
+    videoId:null,videoTitle:'🎬 Mistr Mysli — Vztek',videoNote:'Video brzy'},
+  forgive:{emoji:'🕊️',title:'Když potřebuješ odpustit',pill:'Stoická ctnost: Moudrost',
+    body:`Odpuštění je jednou z nejtěžších věcí, které může člověk udělat. Ale stoici věděli: <strong>odpuštění není dárek pro osobu, která ti ublížila. Je to dárek pro tebe.</strong><br><br>Nést v sobě hněv je jako držet rozžhavené uhlí. Odpustit znamená položit ho.`,
+    quote:'„O kolik bolestnější jsou důsledky hněvu než jeho příčiny."',philosopher:'Marcus Aurelius',
+    practice:['Přiznej si: „Bylo mi ublíženo. To bylo skutečné."','Zeptej se: Jak by se cítilo, kdybych to položil/a?','Odpuštění neznamená znovu jim věřit — znamená osvobodit tebe.','Napiš dopis, který nikdy nepošleš. Řekni vše. Pak ho pusť.'],
+    videoId:null,videoTitle:'🎬 Mistr Mysli — Odpuštění',videoNote:'Video brzy'},
+  lost:{emoji:'🌱',title:'Když nevíš, kdo jsi',pill:'Stoická myšlenka: Eudaimonia',
+    body:`Cítit se ztracený/á není znamením, že je s tebou něco špatně. Je to znamení, že <em>rosteš</em>.<br><br>Stoici věřili, že smyslem lidského života je stávat se stále více sebou samým. <strong>Nejsi ztracený/á. Stáváš se.</strong>`,
+    quote:'„Kdo zná ostatní, je moudrý; kdo zná sebe, je osvícený."',philosopher:'Lao Tzu',
+    practice:['Napiš: „Věci, které na světě miluji nejvíc, jsou..." — nezastavuj se 3 minuty.','Zeptej se: Kdy se cítím nejvíce sebou? Ten pocit je tvůj kompas.','Ztráta je začátek nalézání. Důvěřuj procesu.','Pohovoř s někým, koho obdivuješ. Zeptej se ho, kdy přišel/přišla na to, kdo je.'],
+    videoId:null,videoTitle:'🎬 Mistr Mysli — Kdo jsem?',videoNote:'Video brzy'}
+};
+
+function buildVid(r){
+  if(r.videoId)return`<div style="margin:0 14px 12px;border-radius:20px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,0.5)"><div style="background:rgba(155,109,255,.15);border-bottom:1px solid rgba(155,109,255,.2);padding:10px 16px;font-size:.72rem;font-weight:800;color:var(--violet);text-transform:uppercase;letter-spacing:.8px">📺 ${r.videoTitle}</div><div style="position:relative;width:100%;padding-top:56.25%;background:#0a0920"><iframe style="position:absolute;inset:0;width:100%;height:100%;border:none" src="https://www.youtube-nocookie.com/embed/${r.videoId}?rel=0&modestbranding=1&playsinline=1" allowfullscreen loading="lazy"></iframe></div></div>`;
+  return`<div style="margin:0 14px 12px;border-radius:20px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,0.5)"><div style="background:rgba(155,109,255,.15);border-bottom:1px solid rgba(155,109,255,.2);padding:10px 16px;font-size:.72rem;font-weight:800;color:var(--violet);text-transform:uppercase;letter-spacing:.8px">📺 ${r.videoTitle}</div><div style="position:relative;width:100%;padding-top:56.25%;background:#0a0920;display:flex;align-items:center;justify-content:center"><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;text-align:center;padding:20px"><div style="font-size:2.4rem;margin-bottom:8px">🎬</div><div style="font-family:'Cinzel',serif;font-size:1rem;margin-bottom:6px">Video brzy</div><div style="font-size:.78rem;opacity:.7;font-weight:600;line-height:1.5">${r.videoNote}</div><div style="margin-top:10px;background:rgba(155,109,255,.2);border:1px solid rgba(155,109,255,.3);border-radius:50px;padding:5px 14px;font-size:.7rem;font-weight:800;letter-spacing:.5px">✦ Projekt Moudrost — Český kanál</div></div></div></div>`;
+}
+
+function showResponse(key){
+  const r=responses[key];
+  document.getElementById('response-content').innerHTML=`
+    <div style="margin:0 14px 14px;background:var(--card);border:1px solid var(--border);border-radius:24px;padding:24px 20px;text-align:center" class="asl">
+      <div style="font-size:3.2rem;margin-bottom:10px;animation:sigilFloat 2.5s ease-in-out infinite">${r.emoji}</div>
+      <div style="font-family:'Cinzel',serif;font-size:1.5rem;color:var(--text);margin-bottom:10px">${r.title}</div>
+      <div style="font-size:.93rem;font-weight:600;color:var(--text-dim);line-height:1.7;text-align:left">${r.body}</div>
+      <div style="display:inline-block;margin-top:12px;background:linear-gradient(135deg,rgba(155,109,255,.3),rgba(64,224,200,.2));border:1px solid rgba(155,109,255,.3);border-radius:50px;padding:5px 16px;font-size:.72rem;font-weight:800;color:var(--violet);text-transform:uppercase;letter-spacing:.8px">${r.pill}</div>
+    </div>
+    ${buildVid(r)}
+    <div class="wisdom-quote-box asl d2">
+      <div class="wqb-label">✦ Slova moudrých</div>
+      <div class="wqb-quote">${r.quote}</div>
+      <div class="wqb-by">— ${r.philosopher}</div>
+    </div>
+    <div class="practice-box asl d3">
+      <div class="pb-label">✦ Zkus tohle — hned teď</div>
+      <ul class="pb-steps">${r.practice.map((s,i)=>`<li><span class="pb-num">${i+1}</span>${s}</li>`).join('')}</ul>
+    </div>
+    <div class="not-alone asl d4">
+      <span class="na-icon">💛</span>
+      Nejsi s tímto pocitem sám/sama.<br>
+      Každý člověk se tak někdy cítil.<br>
+      <strong>Proto moudrost existuje — pro chvíle jako je tahle.</strong>
+    </div>`;
+  goTo('screen-response');
+}
+</script>
+
+</body>
+</html>
